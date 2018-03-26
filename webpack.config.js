@@ -20,7 +20,7 @@ const entryPath = path.join(__dirname, 'src/static/index.js');
 const outputPath = path.join(__dirname, 'dist');
 const outputFilename = isProd ? '[name]-[hash].js' : '[name].js'
 
-console.log('WEBPACK GO! Building for ' + TARGET_ENV);
+console.log('WEBPACK GO! Building 4 for ' + TARGET_ENV);
 
 // common webpack config (valid for dev and prod)
 var commonConfig = {
@@ -79,7 +79,7 @@ if (isDev === true) {
                     }
                 }]
             },{
-                test: /\.sc?ss$/,
+                test: /\.sass$|\.css$|\.scss$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
             }]
         }
@@ -96,7 +96,7 @@ if (isProd === true) {
                 exclude: [/elm-stuff/, /node_modules/],
                 use: 'elm-webpack-loader'
             }, {
-                test: /\.sc?ss$/,
+                test: /\.sass$|\.css$|\.scss$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: ['css-loader', 'postcss-loader', 'sass-loader']
