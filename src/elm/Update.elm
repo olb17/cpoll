@@ -1,53 +1,19 @@
 module Update exposing (..)
 
+import Time
+
+import Routing exposing (Route(..), parse, toPath)
 import Messages exposing (..)
 import Model exposing (..)
 import Navigation
-import Task
-import Time
-import Process
-import Routing exposing (Route(..), parse, toPath)
-
+import Common.Delay exposing (..)
+import Home.Update exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        HandlePollInput value ->
-            if String.isEmpty(value)
-            then
-                { model | poll = Nothing } ! []
-            else
-                { model | poll = Just value } ! []
-
-        HandleUsernameInput value ->
-            if String.isEmpty(value)
-            then
-                { model | username = Nothing } ! []
-            else
-                { model | username = Just value } ! []
-
-        HandlePollSubmit ->
-            let
-                pq =
-                    { id = "id1"
-                    , status = WaitingForAnswer
-                    , textMd = "Mais quelle est la question ?"
-                    , answers = [ 
-                                ("id1", "Question 1")
-                                , ("id2", "Question 2")
-                                , ("id3", "Question 3")
-                                , ("id4", "Question 4")
-                                ]
-                    , answerId = Nothing
-                    , participantNb = 10
-                    , answerNb = 0
-                    }         
-            in
-                case model.poll of
-                    Just pollid -> model ! 
-                        [ delay (Time.second * 0) <| PollConnected
-                        , delay (Time.second * 2) <| IncomingQuestion pq ]
-                    Nothing -> model ! []
+        HomeMsg homeMsgType ->
+            Home.Update.update homeMsgType model
         
         PollConnected ->
             let 
@@ -100,8 +66,3 @@ urlUpdate model =
 
         _ ->
             model ! []
-
-delay : Time.Time -> msg -> Cmd msg
-delay time msg =
-  Process.sleep time
-  |> Task.perform (\_ -> msg)

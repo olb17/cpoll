@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 -- import Html.Keyed exposing (..)
 import Messages exposing (..)
+import Home.Messages exposing (..)
 import Model exposing (..)
 
 
@@ -20,15 +21,23 @@ viewContent : Model -> List (Html Msg)
 viewContent model =
     [ div []
         [ text "Poll id : "
-        , input [ placeholder "Poll id ...", type_ "text", value (wrapTextboxValue model.poll), onInput HandlePollInput ]
+        , input [ placeholder "Poll id ..."
+                , type_ "text"
+                , value (wrapTextboxValue model.poll)
+                , onInput <| raiseLocalInputMsg HandlePollInput
+                ]
             []
         ]
     , div []
         [ text "Username : "
-        , input [ placeholder "Poll id ...", type_ "text", value (wrapTextboxValue model.username), onInput HandleUsernameInput  ]
+        , input [ placeholder "Poll id ..."
+                , type_ "text"
+                , value (wrapTextboxValue model.username)
+                , onInput <| raiseLocalInputMsg HandleUsernameInput
+                ]
             []
         ]
-    , input [ type_ "button", value "Join Poll", onClick HandlePollSubmit ]
+    , input [ type_ "button", value "Join Poll", onClick <| HomeMsg HandlePollSubmit ]
         []
     ]
 
@@ -37,3 +46,7 @@ wrapTextboxValue value =
     case value of
         Just str -> str
         Nothing -> ""
+
+raiseLocalInputMsg: (String -> HomeMsgType) -> (String -> Msg)
+raiseLocalInputMsg msg =
+    \x -> HomeMsg (msg x)

@@ -4,11 +4,10 @@ import Navigation
 import Routing exposing (Route)
 
 import Model exposing (..)
+import Home.Messages exposing (..)
 
 type Msg
-    = HandlePollInput String
-    | HandleUsernameInput String
-    | HandlePollSubmit
+    = HomeMsg HomeMsgType
     | PollConnected
     | IncomingQuestion PollQuestion
     | SelectAnswer String
