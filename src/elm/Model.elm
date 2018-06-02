@@ -22,7 +22,7 @@ type alias PollQuestion =
     { id : String
     , status : PollQuestionStatus
     , textMd : String
-    , answers : List (String, String)
+    , answers : List (String, String, Int)
     , answerId : Maybe String
     , participantNb : Int
     , answerNb : Int

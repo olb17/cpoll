@@ -4,6 +4,7 @@ import Time
 
 import Messages exposing (..)
 import Home.Messages exposing (..)
+import Poll.Messages exposing (..)
 import Model exposing (..)
 import Common.Delay exposing (..)
 
@@ -31,18 +32,18 @@ update msg model =
                     , status = WaitingForAnswer
                     , textMd = "Mais quelle est la question ?"
                     , answers = [ 
-                                ("id1", "Question 1")
-                                , ("id2", "Question 2")
-                                , ("id3", "Question 3")
-                                , ("id4", "Question 4")
+                                ("id1", "Question 1", 0)
+                                , ("id2", "Question 2", 0)
+                                , ("id3", "Question 3", 0)
+                                , ("id4", "Question 4", 0)
                                 ]
                     , answerId = Nothing
                     , participantNb = 10
                     , answerNb = 0
-                    }         
+                    }
             in
                 case model.poll of
                     Just pollid -> model ! 
                         [ delay (Time.second * 0) <| PollConnected
-                        , delay (Time.second * 2) <| IncomingQuestion pq ]
+                        , delay (Time.second * 2) <| PollMsg (Poll.Messages.IncomingQuestion pq) ]
                     Nothing -> model ! []

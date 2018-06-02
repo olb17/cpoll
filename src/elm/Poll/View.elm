@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 -- import Html.Keyed exposing (..)
 import Messages exposing (..)
+import Poll.Messages exposing (..)
 import Model exposing (..)
 
 
@@ -25,7 +26,7 @@ viewContent pq =
             WaitingForAllAnswers -> 
                 viewWaitingForAllAnswers pq
             DisplayResult -> 
-                [text "Wainting for question : DisplayResult"]
+                [text "Waiting for question : DisplayResult"]
 
 
 viewWaitingForAnswer : PollQuestion -> List (Html Msg)
@@ -39,12 +40,13 @@ viewWaitingForAnswer pq =
         (List.map viewQuestion pq.answers)
     
 
-viewQuestion : (String, String) -> Html Msg
-viewQuestion (idQ, question) =
+viewQuestion : (String, String, Int) -> Html Msg
+viewQuestion (idQ, question, _) =
     div [] 
-        [ input [ type_ "radio", name "font-size", onClick (SelectAnswer idQ) ] []
+        [ input [ type_ "radio", name "font-size", onClick (PollMsg (SelectAnswer idQ)) ] []
         , text question
         ]
+
 
 viewWaitingForAllAnswers : PollQuestion -> List (Html Msg)
 viewWaitingForAllAnswers pq =
@@ -59,12 +61,13 @@ viewWaitingForAllAnswers pq =
         (List.map viewQuestionAnswered pq.answers)
     
 
-viewQuestionAnswered : (String, String) -> Html Msg
-viewQuestionAnswered (idQ, question) =
+viewQuestionAnswered : (String, String, Int) -> Html Msg
+viewQuestionAnswered (idQ, question, _) =
     div [id idQ] 
         [text ("Q" ++ idQ)
         , text question
         ]
+
 
 viewDisplayResult : PollQuestion -> List (Html Msg)
 viewDisplayResult pq =
@@ -78,8 +81,8 @@ viewDisplayResult pq =
         (List.map viewDisplayResultAnswer pq.answers)
     
 
-viewDisplayResultAnswer : (String, String) -> Html Msg
-viewDisplayResultAnswer (idQ, question) =
+viewDisplayResultAnswer : (String, String, Int) -> Html Msg
+viewDisplayResultAnswer (idQ, question, result) =
     div [id idQ] 
         [text ("Q" ++ idQ)
         , text question

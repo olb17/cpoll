@@ -23,7 +23,7 @@ viewContent model =
         [ text "Poll id : "
         , input [ placeholder "Poll id ..."
                 , type_ "text"
-                , value (wrapTextboxValue model.poll)
+                , value (Maybe.withDefault "" model.poll)
                 , onInput <| raiseLocalInputMsg HandlePollInput
                 ]
             []
@@ -32,7 +32,7 @@ viewContent model =
         [ text "Username : "
         , input [ placeholder "Poll id ..."
                 , type_ "text"
-                , value (wrapTextboxValue model.username)
+                , value (Maybe.withDefault "" model.username)
                 , onInput <| raiseLocalInputMsg HandleUsernameInput
                 ]
             []
@@ -40,12 +40,6 @@ viewContent model =
     , input [ type_ "button", value "Join Poll", onClick <| HomeMsg HandlePollSubmit ]
         []
     ]
-
-wrapTextboxValue: Maybe String -> String
-wrapTextboxValue value =
-    case value of
-        Just str -> str
-        Nothing -> ""
 
 raiseLocalInputMsg: (String -> HomeMsgType) -> (String -> Msg)
 raiseLocalInputMsg msg =
