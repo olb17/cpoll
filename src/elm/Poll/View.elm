@@ -26,7 +26,7 @@ viewContent pq =
             WaitingForAllAnswers -> 
                 viewWaitingForAllAnswers pq
             DisplayResult -> 
-                [text "Waiting for question : DisplayResult"]
+                [text "DisplayingResult"]
 
 
 viewWaitingForAnswer : PollQuestion -> List (Html Msg)

@@ -1,6 +1,7 @@
 module Update exposing (..)
 
 import Time
+import Debug
 
 import Routing exposing (Route(..), parse, toPath)
 import Messages exposing (..)
@@ -29,8 +30,7 @@ update msg model =
              
         UrlChange location ->
             let
-                currentRoute =
-                    parse location
+                currentRoute = parse location
             in
                 urlUpdate { model | route = currentRoute }
 
@@ -43,6 +43,12 @@ urlUpdate model =
     case model.route of
         HomeIndexRoute ->
             model ! []
+
+        ParticipateToPollRoute poll ->
+            if model.username /= Nothing && model.poll /= Nothing then            
+                { model | pollQuestion = initPollQuestion } ! []
+            else
+                urlUpdate { model | route = HomeIndexRoute }
 
         _ ->
             model ! []

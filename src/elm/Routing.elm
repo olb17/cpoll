@@ -17,10 +17,10 @@ toPath route =
             "/"
 
         ParticipateToPollRoute id ->
-            "/poll/" ++ id
+            "/#poll/" ++ id
 
         NotFoundRoute ->
-            "/not-found"
+            "/#not-found"
 
 
 matchers : Parser (Route -> a) a
@@ -33,9 +33,15 @@ matchers =
 
 parse : Navigation.Location -> Route
 parse location =
-    case UrlParser.parsePath matchers location of
-        Just route ->
-            route
+    let
+      locationHash =
+        if String.isEmpty(location.hash)
+        then { location | hash = "#/" }
+        else location
+    in        
+        case UrlParser.parseHash matchers locationHash of
+            Just route ->
+                route
 
-        Nothing ->
-            NotFoundRoute
+            Nothing ->
+                NotFoundRoute
