@@ -30,7 +30,7 @@ viewContent model =
         ]
     , div []
         [ text "Username : "
-        , input [ placeholder "Poll id ..."
+        , input [ placeholder "Username ..."
                 , type_ "text"
                 , value (Maybe.withDefault "" model.username)
                 , onInput <| raiseLocalInputMsg HandleUsernameInput

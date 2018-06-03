@@ -34,14 +34,17 @@ type PollQuestionStatus
     | WaitingForAllAnswers
     | DisplayResult
 
-initialModel : Route -> Model
-initialModel route =
-    { poll = Nothing
-    , username = Nothing
-    , route = route
-    , question = NotRequested
-    , pollQuestion = initPollQuestion
-    }
+initialModel : Route -> String -> Model
+initialModel route username =
+    let
+        usernameMaybe = if String.isEmpty(username) then Nothing else Just username
+    in
+        { poll = Nothing
+        , username = usernameMaybe
+        , route = route
+        , question = NotRequested
+        , pollQuestion = initPollQuestion
+        }
 
 initPollQuestion : PollQuestion
 initPollQuestion = 

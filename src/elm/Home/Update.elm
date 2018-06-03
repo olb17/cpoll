@@ -6,6 +6,8 @@ import Messages exposing (..)
 import Home.Messages exposing (..)
 import Poll.Messages exposing (..)
 import Model exposing (..)
+import Ports exposing (..)
+
 import Common.Delay exposing (..)
 
 update : HomeMsgType -> Model -> ( Model, Cmd Msg )
@@ -21,9 +23,9 @@ update msg model =
         HandleUsernameInput value ->
             if String.isEmpty(value)
             then
-                { model | username = Nothing } ! []
+                { model | username = Nothing } ! [setUsername ""]
             else
-                { model | username = Just value } ! []
+                { model | username = Just value } ! [setUsername value]
 
         HandlePollSubmit ->
             let

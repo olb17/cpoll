@@ -9,4 +9,8 @@ require( './styles/main.scss' );
 
 // inject bundled Elm app into div#main
 var Elm = require( '../elm/Main' );
-Elm.Main.embed( document.getElementById( 'main' ) );
+var app = Elm.Main.embed( document.getElementById( 'main' ), {username: localStorage.getItem('username') || "" } );
+
+app.ports.setUsername.subscribe(function(username) {
+    localStorage.setItem('username', username)
+});
