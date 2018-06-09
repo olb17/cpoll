@@ -8,6 +8,7 @@ import Html.Events exposing (..)
 import Messages exposing (..)
 import Home.Messages exposing (..)
 import Model exposing (..)
+import Routing exposing (..)
 
 
 indexView : Model -> Html Msg
@@ -37,7 +38,11 @@ viewContent model =
                 ]
             []
         ]
-    , input [ type_ "button", value "Join Poll", onClick <| HomeMsg HandlePollSubmit ]
+    , input [ type_ "button", value "Join Existing Poll", onClick <| HomeMsg HandlePollSubmit ]
+        []
+    , div []
+        []
+    , input [ type_ "button", value "Create New Poll", onClick <| NavigateTo AdminHomeRoute ]
         []
     ]
 

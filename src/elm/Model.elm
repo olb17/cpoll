@@ -1,7 +1,7 @@
 module Model exposing (..)
 
 import Routing exposing (Route)
-
+import PollModel exposing (..)
 
 type RemoteData e a
     = NotRequested
@@ -16,6 +16,7 @@ type alias Model =
     , route : Route
     , question : RemoteData String String
     , pollQuestion : PollQuestion
+    , pollModel : PollModel
     }
 
 type alias PollQuestion =
@@ -44,6 +45,7 @@ initialModel route username =
         , route = route
         , question = NotRequested
         , pollQuestion = initPollQuestion
+        , pollModel = PollModel.initPollModel
         }
 
 initPollQuestion : PollQuestion

@@ -6,6 +6,7 @@ import UrlParser exposing (..)
 
 type Route
     = HomeIndexRoute
+    | AdminHomeRoute
     | ParticipateToPollRoute String
     | NotFoundRoute
 
@@ -15,6 +16,9 @@ toPath route =
     case route of
         HomeIndexRoute ->
             "/"
+
+        AdminHomeRoute ->
+            "/#admin"
 
         ParticipateToPollRoute id ->
             "/#poll/" ++ id
@@ -27,6 +31,7 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map HomeIndexRoute <| s ""
+        , map AdminHomeRoute <| s "admin"
         , map ParticipateToPollRoute <| s "poll" </> string
         ]
 

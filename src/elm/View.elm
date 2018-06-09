@@ -2,6 +2,7 @@ module View exposing (..)
 
 import Common.View exposing (warningMessage, backToHomeLink)
 import Home.View exposing (indexView)
+import AdminHome.View exposing (indexView)
 import Poll.View exposing (indexView)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -36,6 +37,9 @@ page model =
     case model.route of
         HomeIndexRoute ->
             Home.View.indexView model
+
+        AdminHomeRoute ->
+            AdminHome.View.indexView model
 
         ParticipateToPollRoute pollid ->
             Poll.View.indexView model.pollQuestion
