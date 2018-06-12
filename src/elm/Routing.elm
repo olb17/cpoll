@@ -7,6 +7,8 @@ import UrlParser exposing (..)
 type Route
     = HomeIndexRoute
     | AdminHomeRoute
+    | OpeningPollRoute String
+    | AdminPollRoute String
     | ParticipateToPollRoute String
     | NotFoundRoute
 
@@ -20,6 +22,12 @@ toPath route =
         AdminHomeRoute ->
             "/#admin"
 
+        OpeningPollRoute id ->
+            "/#openingPoll/" ++ id
+        
+        AdminPollRoute id ->
+            "/#adminPoll/" ++ id
+        
         ParticipateToPollRoute id ->
             "/#poll/" ++ id
 
@@ -32,6 +40,8 @@ matchers =
     oneOf
         [ map HomeIndexRoute <| s ""
         , map AdminHomeRoute <| s "admin"
+        , map OpeningPollRoute <| s "openingPoll" </> string
+        , map AdminPollRoute <| s "adminPoll" </> string
         , map ParticipateToPollRoute <| s "poll" </> string
         ]
 
