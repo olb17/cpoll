@@ -18,7 +18,7 @@ init flags location =
             parse location
 
         model =
-            initialModel currentRoute flags.username
+            initialModel currentRoute flags.username <| parserServerDesc flags
     in
         urlUpdate model
 
@@ -31,3 +31,7 @@ main =
         , update = update
         , subscriptions = always <| Sub.none
         }
+
+parserServerDesc : Flags -> ServerDesc
+parserServerDesc flags = 
+    Mock -- only mock is implemented

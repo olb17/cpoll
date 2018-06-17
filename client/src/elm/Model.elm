@@ -1,7 +1,7 @@
 module Model exposing (..)
 
 import Routing exposing (Route)
-import PollModel exposing (..)
+-- import Server
 
 type RemoteData e a
     = NotRequested
@@ -16,7 +16,7 @@ type alias Model =
     , route : Route
     , question : RemoteData String String
     , pollQuestion : PollQuestion
-    , pollModel : PollModel
+    , serverDesc : ServerDesc
     }
 
 type alias PollQuestion =
@@ -35,8 +35,10 @@ type PollQuestionStatus
     | WaitingForAllAnswers
     | DisplayResult
 
-initialModel : Route -> String -> Model
-initialModel route username =
+type ServerDesc = Mock
+
+initialModel : Route -> String -> ServerDesc -> Model
+initialModel route username serverDesc =
     let
         usernameMaybe = if String.isEmpty(username) then Nothing else Just username
     in
@@ -45,7 +47,7 @@ initialModel route username =
         , route = route
         , question = NotRequested
         , pollQuestion = initPollQuestion
-        , pollModel = PollModel.initPollModel
+        , serverDesc = serverDesc
         }
 
 initPollQuestion : PollQuestion

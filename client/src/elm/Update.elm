@@ -1,8 +1,5 @@
 module Update exposing (..)
 
-import Time
-import Debug
-
 import Routing exposing (Route(..), parse, toPath)
 import Messages exposing (..)
 import Model exposing (..)
