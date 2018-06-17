@@ -1,9 +1,8 @@
 module View exposing (..)
 
 import Common.View exposing (warningMessage, backToHomeLink)
-import Home.View exposing (indexView)
 import AdminHome.View exposing (indexView)
-import Poll.View exposing (indexView)
+import OpeningPoll.View exposing (indexView)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 --import Html.Events exposing (onClick)
@@ -35,14 +34,11 @@ headerView =
 page : Model -> Html Msg
 page model =
     case model.route of
-        HomeIndexRoute ->
-            Home.View.indexView model
-
         AdminHomeRoute ->
             AdminHome.View.indexView model
 
-        ParticipateToPollRoute pollid ->
-            Poll.View.indexView model.pollQuestion
+        OpeningPollRoute pollid ->
+            OpeningPoll.View.indexView model
             
         _ ->
             notFoundView

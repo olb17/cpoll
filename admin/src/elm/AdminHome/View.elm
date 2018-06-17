@@ -9,8 +9,6 @@ import Messages exposing (..)
 import AdminHome.Messages exposing (..)
 import Model exposing (..)
 
-import Routing exposing (..)
-
 indexView : Model -> Html Msg
 indexView model =
     div
@@ -30,8 +28,6 @@ viewContent model =
             []
         ]
     , input [ type_ "button", value "Create Poll", onClick <| AdminHomeMsg HandleCreatePollSubmit ]
-        []
-    , input [ type_ "button", value "Return to Home", onClick <| NavigateTo HomeIndexRoute ]
         []
     ]
 

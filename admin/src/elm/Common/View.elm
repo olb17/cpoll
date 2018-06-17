@@ -24,5 +24,5 @@ warningMessage iconClasses message content =
 backToHomeLink : Html Msg
 backToHomeLink =
     a
-        [ onClick <| NavigateTo HomeIndexRoute ]
+        [ onClick <| NavigateTo AdminHomeRoute ]
         [ text "← Back to contact list" ]
