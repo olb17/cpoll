@@ -9,11 +9,7 @@ update : OpeningPollMsgType -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         HandlePollDescriptionInput value ->
-            let
-                pm = model.pollModel
-                newPollModel = { pm | jsonDescription = value }
-            in
-                { model | pollModel = newPollModel } ! []
+            model ! []
 
         HandleCreatePollSubmit ->
             model ! []

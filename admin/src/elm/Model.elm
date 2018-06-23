@@ -1,7 +1,7 @@
 module Model exposing (..)
 
 import Routing exposing (Route)
-import PollModel exposing (..)
+import Dict
 
 type RemoteData e a
     = NotRequested
@@ -14,26 +14,33 @@ type alias Model =
     { poll : Maybe String
     , username : Maybe String
     , route : Route
-    , question : RemoteData String String
-    , pollQuestion : PollQuestion
-    , pollModel : PollModel
+    , jsonDescription : String
+    , questions : List PollQuestion
+    , participants : Dict.Dict String ParticipantStatus
     }
+
 
 type alias PollQuestion =
     { id : String
     , status : PollQuestionStatus
     , textMd : String
-    , answers : List (String, String, Int)
-    , answerId : Maybe String
-    , participantNb : Int
-    , answerNb : Int
+    , answers : List (String, String) -- id, answer string
+    , actualAnswers : List (String, String) -- partipant name, answerId
     }
 
+
 type PollQuestionStatus
-    = WaitingForQuestion
-    | WaitingForAnswer
-    | WaitingForAllAnswers
-    | DisplayResult
+    = NotStarted
+    | WaitingForAnswers
+    | Closed
+
+
+type ParticipantStatus
+    = Online
+    | Disabled
+    | DisabledOffline
+    | Offline
+
 
 initialModel : Route -> String -> Model
 initialModel route username =
@@ -43,18 +50,7 @@ initialModel route username =
         { poll = Nothing
         , username = usernameMaybe
         , route = route
-        , question = NotRequested
-        , pollQuestion = initPollQuestion
-        , pollModel = PollModel.initPollModel
+        , jsonDescription = ""
+        , questions = []
+        , participants = Dict.fromList []
         }
-
-initPollQuestion : PollQuestion
-initPollQuestion = 
-    { id = ""
-    , status = WaitingForQuestion
-    , textMd = ""
-    , answers = []
-    , answerId = Nothing
-    , participantNb = 0
-    , answerNb = 0
-    }

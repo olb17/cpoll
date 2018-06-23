@@ -6,6 +6,7 @@ import Routing exposing (Route(..), parse, toPath)
 import Messages exposing (..)
 import Model exposing (..)
 import Navigation
+import Dict
 
 import AdminHome.Update
 import OpeningPoll.Update
@@ -18,6 +19,17 @@ update msg model =
         
         OpeningPollMsg openingPollMsgType ->
             OpeningPoll.Update.update openingPollMsgType model
+
+        PollCreated pollid questions ->
+            update (NavigateTo (OpeningPollRoute pollid)) 
+                { model | questions = questions, poll = Just pollid }
+
+        ParticipantChange participant status ->
+            let 
+                participantDict =
+                    Dict.insert participant status model.participants
+            in
+                { model | participants = participantDict } ! []
 
         UrlChange location ->
             let
