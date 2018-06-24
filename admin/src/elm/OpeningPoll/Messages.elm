@@ -1,5 +1,8 @@
 module OpeningPoll.Messages exposing (..)
 
+import Model exposing (..)
+
 type OpeningPollMsgType
-    = HandlePollDescriptionInput String
-    | HandleCreatePollSubmit
+    = StartQuestion PollQuestion
+    | EndQuestion PollQuestion
+    | CancelQuestion PollQuestion

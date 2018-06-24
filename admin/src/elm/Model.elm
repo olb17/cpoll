@@ -17,7 +17,14 @@ type alias Model =
     , jsonDescription : String
     , questions : List PollQuestion
     , participants : Dict.Dict String ParticipantStatus
+    , status : PollStatus
     }
+
+
+type PollStatus
+    = NotRunning
+    | Running String -- questionId
+    | Finished
 
 
 type alias PollQuestion =
@@ -53,4 +60,5 @@ initialModel route username =
         , jsonDescription = ""
         , questions = []
         , participants = Dict.fromList []
+        , status = NotRunning
         }
