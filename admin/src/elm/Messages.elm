@@ -11,6 +11,7 @@ type Msg
     = OpeningPollMsg OpeningPollMsgType
     | AdminHomeMsg AdminHomeMsgType
     | PollCreated String (List Model.PollQuestion) -- pollid , questions
+    | ParticipantAnswer String String String -- participant questionid answerid
     | ParticipantChange String Model.ParticipantStatus
     | UrlChange Navigation.Location
     | NavigateTo Route

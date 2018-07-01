@@ -20,10 +20,19 @@ update msg model =
         OpeningPollMsg openingPollMsgType ->
             OpeningPoll.Update.update openingPollMsgType model
 
-        PollCreated pollid questions ->
-            update (NavigateTo (OpeningPollRoute pollid)) 
-                { model | questions = questions, poll = Just pollid }
+        PollCreated pollid questionList ->
+            let
+                updateQuestions =
+                    questionList
+                    |> List.map (\question -> (question.id, question)) 
+                    |> Dict.fromList
+            in
+                update (NavigateTo (OpeningPollRoute pollid)) 
+                    { model | questions = updateQuestions, poll = Just pollid }
 
+        ParticipantAnswer participant questionid answerid ->
+            updateAnswer model participant questionid answerid ! []
+        
         ParticipantChange participant status ->
             let 
                 participantDict =
@@ -49,3 +58,46 @@ urlUpdate model =
 
         _ ->
             model ! []
+
+updateAnswer : Model -> String -> String -> String -> Model
+updateAnswer model participant questionid answerid =
+    let
+        foundParticipant = Dict.member participant model.participants
+        foundQuestion = Dict.get questionid model.questions
+        foundAnswer = case foundQuestion of
+            Nothing -> False
+            Just question -> 
+                Dict.member answerid question.answers
+        alreadyAnswered = case foundQuestion of
+            Nothing -> False
+            Just question -> 
+                Dict.member answerid question.actualAnswers
+        questionBeingAnswered = case foundQuestion of
+            Nothing -> False
+            Just question -> 
+                question.status == WaitingForAnswers
+        updatedAnswers = case foundQuestion of
+            Nothing -> Dict.empty -- Cannot happen
+            Just question -> 
+                if Dict.member answerid question.actualAnswers
+                then
+                    question.actualAnswers
+                else
+                    Dict.insert participant answerid question.actualAnswers
+        updatedQuestions = case foundQuestion of
+            Nothing -> Nothing
+            Just question -> 
+                Just { question | actualAnswers = updatedAnswers }
+    in
+        if  foundParticipant && 
+            foundQuestion /= Nothing &&
+            foundAnswer &&
+            questionBeingAnswered &&
+            not alreadyAnswered
+        then
+            case updatedQuestions of
+            Nothing -> model
+            Just question -> 
+                { model | questions = Dict.insert question.id question model.questions } 
+        else
+            model

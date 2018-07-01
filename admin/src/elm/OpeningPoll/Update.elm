@@ -1,6 +1,6 @@
 module OpeningPoll.Update exposing (update)
 
-import List
+import Dict
 
 import Messages exposing (..)
 import OpeningPoll.Messages exposing (..)
@@ -13,7 +13,7 @@ update msg model =
         StartQuestion question ->
             let
                 q = { question | status = WaitingForAnswers }
-                qs = List.map (updateQuestion q) model.questions
+                qs = Dict.insert q.id q model.questions
             in
                 { model | 
                   status = Running question.id
@@ -23,18 +23,18 @@ update msg model =
         EndQuestion question ->
            let
                 q = { question | status = Closed }
-                qs = List.map (updateQuestion q) model.questions
-                finished = List.all (\q -> q.status == Closed) qs
+                qs = Dict.insert q.id q model.questions
+                finished = List.all (\q -> q.status == Closed) (Dict.values qs)
             in
                 { model | 
                   status = if finished then Finished else NotRunning
-                , questions = qs 
+                , questions = qs
                 } ! []
         
         CancelQuestion question ->
            let
                 q = { question | status = NotStarted }
-                qs = List.map (updateQuestion q) model.questions
+                qs = Dict.insert q.id q model.questions
             in
                 { model | 
                   status = NotRunning

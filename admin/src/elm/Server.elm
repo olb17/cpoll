@@ -2,6 +2,7 @@ module Server exposing (..)
 
 import Time
 import Common.Delay exposing (..)
+import Dict
 
 import Model exposing (..)
 import Messages exposing (..)
@@ -22,14 +23,14 @@ mockPollQuestions =
         { id = "id1"
         , status = Model.NotStarted
         , textMd = "Question1"
-        , answers = [ ("idq1", "Réponse 1"), ("idq2", "Réponse 2"), ("idq3", "Réponse 3"),("idq4", "Réponse 4") ]
-        , actualAnswers = []
+        , answers = Dict.fromList [ ("idq1", "Réponse 1"), ("idq2", "Réponse 2"), ("idq3", "Réponse 3"),("idq4", "Réponse 4") ]
+        , actualAnswers = Dict.fromList []
         }
     ,   { id = "id2"
         , status = Model.NotStarted
         , textMd = "Question2"
-        , answers = [ ("idq1", "Réponse 1"), ("idq2", "Réponse 2"), ("idq3", "Réponse 3"),("idq4", "Réponse 4") ]
-        , actualAnswers = []
+        , answers = Dict.fromList [ ("idq1", "Réponse 1"), ("idq2", "Réponse 2"), ("idq3", "Réponse 3"),("idq4", "Réponse 4") ]
+        , actualAnswers = Dict.fromList []
         }
 
     ]

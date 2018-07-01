@@ -22,7 +22,7 @@ viewContent : Model -> List (Html Msg)
 viewContent model =
     [ h1 [] [text ("Admin Poll - [ " ++ (viewPollStatus model.status) ++ " ]")]
     ,  ul []
-        (List.map (viewQuestionMenu model.status) model.questions)
+        (List.map (viewQuestionMenu model.status) (Dict.values model.questions))
     , h1 [] [text "Participants"]
     ,  ul []
         (List.map viewParticipants (Dict.toList model.participants))

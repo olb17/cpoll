@@ -15,7 +15,7 @@ type alias Model =
     , username : Maybe String
     , route : Route
     , jsonDescription : String
-    , questions : List PollQuestion
+    , questions : Dict.Dict String PollQuestion
     , participants : Dict.Dict String ParticipantStatus
     , status : PollStatus
     }
@@ -31,8 +31,8 @@ type alias PollQuestion =
     { id : String
     , status : PollQuestionStatus
     , textMd : String
-    , answers : List (String, String) -- id, answer string
-    , actualAnswers : List (String, String) -- partipant name, answerId
+    , answers : Dict.Dict String String -- id, answer string
+    , actualAnswers : Dict.Dict String String -- partipant name, answerId
     }
 
 
@@ -58,7 +58,7 @@ initialModel route username =
         , username = usernameMaybe
         , route = route
         , jsonDescription = ""
-        , questions = []
+        , questions = Dict.fromList []
         , participants = Dict.fromList []
         , status = NotRunning
         }
